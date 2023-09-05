@@ -2,6 +2,7 @@ package com.guner.service;
 
 import com.guner.entity.Product;
 import com.guner.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,23 @@ import java.util.Optional;
 public class ProductService {
 
     private ProductRepository productRepository;
+
+    @Transactional
+    public Product createProductTransactional() {
+        Product product = new Product();
+        product.setDescription("This is an example with runtime exception but caught.");
+        product.setPrice(10);
+        product.setTitle("First Product");
+        return productRepository.save(product);
+    }
+
+    public Product createProduct() {
+        Product product = new Product();
+        product.setDescription("This is an example with runtime exception but caught.");
+        product.setPrice(10);
+        product.setTitle("First Product");
+        return productRepository.save(product);
+    }
 
     public Product createProduct(Product product) {
         return productRepository.save(product);

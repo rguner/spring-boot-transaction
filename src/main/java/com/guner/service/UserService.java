@@ -2,6 +2,7 @@ package com.guner.service;
 
 import com.guner.entity.User;
 import com.guner.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,15 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
+
+    @Transactional
+    public User createUserTransactional() {
+        User user = new User();
+        user.setFirstName("Name1");
+        user.setLastName("LastName1");
+        user.setEmail("email1");
+        return userRepository.save(user);
+    }
 
     public User createUser(User user) {
         return userRepository.save(user);
