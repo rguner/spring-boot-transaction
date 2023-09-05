@@ -24,11 +24,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product createProduct() {
-        Product product = new Product();
-        product.setDescription("This is an example with runtime exception but caught.");
-        product.setPrice(10);
-        product.setTitle("First Product");
+    public Product createProductWithParam(Product product) {
         return productRepository.save(product);
     }
 

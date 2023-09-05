@@ -17,15 +17,6 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    @Transactional
-    public User createUserTransactional() {
-        User user = new User();
-        user.setFirstName("Name1");
-        user.setLastName("LastName1");
-        user.setEmail("email1");
-        return userRepository.save(user);
-    }
-
     public User createUser(User user) {
         return userRepository.save(user);
     }
@@ -50,5 +41,18 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Transactional
+    public void createUserTransactionalWithUncheckedException(User user) {
+        userRepository.save(user);
+        throw new RuntimeException("Manuel Runtime Exception");
+    }
+
+
+    @Transactional
+    public void createUserTransactionalWithCheckedException(User user) throws Exception{
+        userRepository.save(user);
+        throw new Exception("Manuel Exception");
     }
 }

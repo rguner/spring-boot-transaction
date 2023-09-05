@@ -21,7 +21,7 @@ public class TransactionalService {
         Product product = new Product();
         product.setDescription("This is an example with runtime exception but no rollback.");
         product.setPrice(10);
-        product.setTitle("First Product");
+        product.setTitle("10 Product");
         productService.createProduct(product);
         throw new RuntimeException("Runtime Exception Occured");
     }
@@ -29,12 +29,40 @@ public class TransactionalService {
     @Transactional
     public void createProductAndUserTransactional() {
         log.debug("------ createProduct ------");
-        productService.createProduct();
+        Product product = new Product();
+        product.setDescription("This is an example with runtime exception but caught runtimeException.");
+        product.setPrice(20);
+        product.setTitle("20 Product");
+        productService.createProductWithParam(product);
         try {
             log.debug("------ createUserTransactional ------");
-            userService.createUserTransactional();
+            User user = new User();
+            user.setFirstName("Name1");
+            user.setLastName("LastName1");
+            user.setEmail("email1");
+            userService.createUserTransactionalWithUncheckedException(user);
         } catch (RuntimeException e) {
-            System.out.println("Handle " + e.getMessage());
+            log.error("Exception occurred", e);
+        }
+    }
+
+    @Transactional
+    public void createProductAndUserTransactional2() {
+        log.debug("------ createProduct ------");
+        Product product = new Product();
+        product.setDescription("This is an example with exception but caught Exception.");
+        product.setPrice(20);
+        product.setTitle("20 Product");
+        productService.createProduct(product);
+        try {
+            log.debug("------ createUserTransactional ------");
+            User user = new User();
+            user.setFirstName("Name2");
+            user.setLastName("LastName2");
+            user.setEmail("email2");
+            userService.createUserTransactionalWithCheckedException(user);
+        } catch (Exception e) {
+            log.error("Exception occurred", e);
         }
     }
 
