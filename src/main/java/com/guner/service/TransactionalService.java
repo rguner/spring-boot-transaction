@@ -46,7 +46,7 @@ public class TransactionalService {
         }
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = Exception.class )
     public void createProductAndUserTransactional2() {
         log.debug("------ createProduct ------");
         Product product = new Product();
