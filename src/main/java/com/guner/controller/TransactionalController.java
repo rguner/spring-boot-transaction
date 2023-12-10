@@ -41,5 +41,11 @@ public class TransactionalController {
         transactionalService.createProductAndUserTransactional2();
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping("createProductAndUserTransactional3")
+    public ResponseEntity<Void> createProductAndUserTransactional3(){
+        transactionalService.createProductAndUserTransactional3();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
 

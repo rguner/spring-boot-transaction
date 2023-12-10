@@ -66,4 +66,31 @@ public class TransactionalService {
         }
     }
 
+    @Transactional
+    public void createProductAndUserTransactional3() {
+        log.debug("------ createProduct ------");
+        Product product = new Product();
+        product.setDescription("This is an example with runtime exception but caught runtimeException.");
+        product.setPrice(20);
+        product.setTitle("20 Product");
+        Product product1 = productService.createProductWithParam(product);
+        Long productId = product1.getId();
+        log.info("Product created with id: " + product1.getId());
+
+        Product createdProduct = productService.getProductById(productId);
+        log.info("Product created " + createdProduct);
+
+
+        try {
+            log.debug("------ createUserTransactional ------");
+            User user = new User();
+            user.setFirstName("Name1");
+            user.setLastName("LastName1");
+            user.setEmail("email1");
+            userService.createUserTransactionalWithUncheckedException(user);
+        } catch (RuntimeException e) {
+            log.error("Exception occurred", e);
+        }
+    }
+
 }
