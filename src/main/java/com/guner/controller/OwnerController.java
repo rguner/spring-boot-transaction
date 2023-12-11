@@ -60,6 +60,7 @@ public class OwnerController {
     }
 
     @PostMapping("/saveBlog")
+    @Transactional
     public String saveBlog(@RequestParam(name = "id") String id) {
         System.out.println("Blog save called...");
 
