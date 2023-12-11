@@ -4,8 +4,10 @@ import com.guner.entity.Blog;
 import com.guner.entity.Owner;
 import com.guner.repository.BlogRepository;
 import com.guner.repository.OwnerRepository;
+import com.guner.service.OwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,8 @@ public class OwnerController {
     private final OwnerRepository ownerRepository;
 
     private final BlogRepository blogRepository;
+
+    private final OwnerService ownerService;
 
     @PostMapping("/saveOwner")
     public String saveOwner(@RequestBody Owner owner) {
@@ -94,11 +98,7 @@ public class OwnerController {
         System.out.println("Owner get called...");
 
         // fetch Owner
-        Owner ownerOut = ownerRepository.findById(Integer.valueOf(id)).get();
-        System.out.println("\nOwner details :: \n" + ownerOut);
-        System.out.println("\nList of Blogs :: \n" + ownerOut.getBlogList());
-
-        System.out.println("\nDone!!!");
+        Owner ownerOut = ownerService.findById(Integer.valueOf(id));
         return "Owner fetched...";
     }
 
