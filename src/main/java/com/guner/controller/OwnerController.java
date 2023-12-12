@@ -94,6 +94,46 @@ public class OwnerController {
         return "Blog saved!!!";
     }
 
+    @PostMapping("/saveBlogWithReference")
+    @Transactional
+    public String saveBlogWithReference(@RequestParam(name = "id") String id) {
+        System.out.println("Blog save called...");
+
+        // fetch Ower
+        Owner ownerTemp = ownerRepository.getReferenceById(Integer.valueOf(id));
+
+        // list of Blog
+        List<Blog> blogs = new ArrayList<>();
+
+        // new Blog
+        Blog blog = new Blog("Build application server using NodeJs", "nodeJs",
+                "We will build REStful api using nodeJs.");
+        // set owner to blog
+        blog.setOwner(ownerTemp);
+        // add Blog to list
+        blogs.add(blog);
+
+        blog = new Blog("Single Page Application using Angular", "Angular",
+                "We can build robust application using Angular framework.");
+        // set owner to blog
+        blog.setOwner(ownerTemp);
+        blogs.add(blog);
+
+        /* bu yöntem ownerRepository veya blogRepository save olabilir.
+        // add Blog list to Owner
+        ownerTemp.setBlogList(blogs);
+
+        // save Owner
+        //ownerRepository.save(ownerTemp);
+         */
+
+        blogs.forEach(blogRepository::save);
+
+
+        System.out.println("Saved!!!");
+        return "Blog saved!!!";
+    }
+
     @GetMapping("/getOwner/{id}")
     public String getOwner(@PathVariable(name = "id") String id) {
         System.out.println("Owner get called...");
