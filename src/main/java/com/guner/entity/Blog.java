@@ -3,6 +3,7 @@ package com.guner.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,9 @@ public class Blog {
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    // @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // owner tablosu tek kayıt var ilişkili,
+                                                                   // eagerjoin ile gider, burası için eager daha iyi olabilir.
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
