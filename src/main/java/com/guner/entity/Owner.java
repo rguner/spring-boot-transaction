@@ -37,6 +37,18 @@ public class Owner {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Blog> blogList;
 
+    /*
+        aynı sonucu verir.
+        Owner class:
+        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+        @JoinColumn(name = "owner_id")
+        private List<Blog> blogList;
+
+        Blog class:
+        @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+        private Owner owner;
+     */
+
     public Owner() { }
 
     public Owner(String name, String email) {
