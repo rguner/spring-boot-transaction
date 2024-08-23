@@ -229,6 +229,7 @@ public class TransactionalService {
         }
     }
 
+    // This will rollback because of CreateRuntimeException is subclass of Exception
     @Transactional(rollbackFor = Exception.class)
     public void createProductTransactional7() {
         try {
