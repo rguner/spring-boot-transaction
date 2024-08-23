@@ -101,5 +101,17 @@ public class TransactionalController {
         transactionalService.createProductTransactional7();
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PostMapping("createProductTransactional8")
+    public ResponseEntity<Void> createProductTransactional8() {
+        transactionalService.createProductTransactional8();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("createProductTransactional9")
+    public ResponseEntity<Void> createProductTransactional9() {
+        transactionalService.createProductTransactional9();
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
 

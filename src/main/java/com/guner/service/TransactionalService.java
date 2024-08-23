@@ -2,6 +2,7 @@ package com.guner.service;
 
 import com.guner.entity.Product;
 import com.guner.entity.User;
+import com.guner.exception.CreateCheckedException;
 import com.guner.exception.CreateRuntimeException;
 import com.guner.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -249,6 +250,59 @@ public class TransactionalService {
             product.setDescription("This is an example with save in catch");
             product.setPrice(30);
             product.setTitle("30 Product");
+            Product product2 = productService.createProductWithParam(product);
+            throw new CreateRuntimeException("Exception caught in catch block", e);
+        }
+    }
+
+    // This will rollback because of CreateCheckedException ( Runtime Exception)
+    @Transactional(rollbackFor = CreateCheckedException.class)
+    public void createProductTransactional8() {
+        try {
+            log.debug("------ createProduct ------");
+            Product product = new Product();
+            product.setDescription("This is an example with CreateRuntimeException and rollbackFor Exception.class");
+            product.setPrice(31);
+            product.setTitle("31 Product");
+            Product product1 = productService.createProductWithParam(product);
+            Long productId = product1.getId();
+            log.info("Product created with id: " + product1.getId());
+
+            Product createdProduct = productService.getProductById(productId);
+            log.info("Product created " + createdProduct);
+            throw new CreateCheckedException("Manuel Exception during Product creation in try block");
+        } catch (CreateCheckedException e) {
+            log.error("Exception occurred", e);
+            Product product = new Product();
+            product.setDescription("This is an example with save in catch");
+            product.setPrice(30);
+            product.setTitle("30 Product");
+            Product product2 = productService.createProductWithParam(product);
+            throw new CreateRuntimeException("Exception caught in catch block", e);
+        }
+    }
+
+    @Transactional(noRollbackFor = CreateRuntimeException.class)
+    public void createProductTransactional9() {
+        try {
+            log.debug("------ createProduct ------");
+            Product product = new Product();
+            product.setDescription("This is an example with CreateRuntimeException and rollbackFor Exception.class");
+            product.setPrice(32);
+            product.setTitle("32 Product");
+            Product product1 = productService.createProductWithParam(product);
+            Long productId = product1.getId();
+            log.info("Product created with id: " + product1.getId());
+
+            Product createdProduct = productService.getProductById(productId);
+            log.info("Product created " + createdProduct);
+            throw new CreateCheckedException("Manuel Exception during Product creation in try block");
+        } catch (CreateCheckedException e) {
+            log.error("Exception occurred", e);
+            Product product = new Product();
+            product.setDescription("This is an example with save in catch");
+            product.setPrice(33);
+            product.setTitle("33 Product");
             Product product2 = productService.createProductWithParam(product);
             throw new CreateRuntimeException("Exception caught in catch block", e);
         }
