@@ -55,4 +55,10 @@ public class UserService {
         userRepository.save(user);
         throw new Exception("Manuel Exception");
     }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    public void createUserTransactionalWithUncheckedExceptionTxTypeRequiresNew(User user) {
+        userRepository.save(user);
+        throw new RuntimeException("Manuel Runtime Exception");
+    }
 }

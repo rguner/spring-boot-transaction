@@ -52,8 +52,8 @@ public class TransactionalService {
         log.debug("------ createProduct ------");
         Product product = new Product();
         product.setDescription("This is an example with exception but caught Exception.");
-        product.setPrice(21);
-        product.setTitle("21 Product");
+        product.setPrice(121);
+        product.setTitle("121 Product");
         productService.createProduct(product);
         try {
             log.debug("------ createUserTransactional ------");
@@ -72,8 +72,8 @@ public class TransactionalService {
         log.debug("------ createProduct ------");
         Product product = new Product();
         product.setDescription("This is an example with runtime exception but caught runtimeException.");
-        product.setPrice(22);
-        product.setTitle("22 Product");
+        product.setPrice(122);
+        product.setTitle("122 Product");
         Product product1 = productService.createProductWithParam(product);
         Long productId = product1.getId();
         log.info("Product created with id: " + product1.getId());
@@ -85,10 +85,30 @@ public class TransactionalService {
         try {
             log.debug("------ createUserTransactional ------");
             User user = new User();
-            user.setFirstName("Name1");
-            user.setLastName("LastName1");
-            user.setEmail("email1");
+            user.setFirstName("Name3");
+            user.setLastName("LastName3");
+            user.setEmail("email3");
             userService.createUserTransactionalWithUncheckedException(user);
+        } catch (RuntimeException e) {
+            log.error("Exception occurred", e);
+        }
+    }
+
+    @Transactional
+    public void createProductAndUserTransactional4() {
+        log.debug("------ createProduct ------");
+        Product product = new Product();
+        product.setDescription("This is an example with runtime exception but caught runtimeException and txtype requiresNew");
+        product.setPrice(123);
+        product.setTitle("123 Product");
+        productService.createProductWithParam(product);
+        try {
+            log.debug("------ createUserTransactional ------");
+            User user = new User();
+            user.setFirstName("Name4");
+            user.setLastName("LastName4");
+            user.setEmail("email4");
+            userService.createUserTransactionalWithUncheckedExceptionTxTypeRequiresNew(user);
         } catch (RuntimeException e) {
             log.error("Exception occurred", e);
         }
