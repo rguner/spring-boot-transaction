@@ -94,6 +94,36 @@ public class OwnerController {
         return "Blog saved!!!";
     }
 
+    @PostMapping("/saveBlogWithNewOwner")
+    @Transactional
+    public String saveBlogWithNewOwner(@RequestBody Owner owner) {
+        // a new Owner
+        Owner ownerIn = new Owner(owner.getName(), owner.getEmail());
+
+        // list of Blog
+        List<Blog> blogs = new ArrayList<>();
+        for (Blog blogIn : owner.getBlogList()) {
+            // new Blog
+            Blog blog = new Blog(blogIn.getTitle(), blogIn.getCategory(), blogIn.getContent());
+            // set owner to Blog
+            blog.setOwner(ownerIn);
+            // add blog to list
+            blogs.add(blog);
+        }
+
+        // add blog list to Owner
+        ownerIn.setBlogList(blogs);
+
+        // blogs.forEach(blogRepository::save); ConcurrentModificationException] with root cause
+
+        for (int i = 0; i < blogs.size(); i++) {
+            blogRepository.save(blogs.get(i));
+        }
+
+        System.out.println("Saved!!!");
+        return "Blog saved!!!";
+    }
+
     @PostMapping("/saveBlogWithReference")
     @Transactional
     public String saveBlogWithReference(@RequestParam(name = "id") String id) {
